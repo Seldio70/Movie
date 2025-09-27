@@ -22,19 +22,20 @@ const App = () => {
   const [errorMessage, setErrorMessage] = useState()
   const [isLoading, setIsLoading] = useState(false)
 
-  const  fetchMovies = async () => {
+const  fetchMovies = async () => {
 
-    setIsLoading(true)
-    setErrorMessage('')
+  setIsLoading(true)
+  setErrorMessage('')
 
+  try {
+    const endpoint = searchTerm
+      ? `${API_BASE_URL}/search/movie?query=${encodeURIComponent(searchTerm)}&api_key=${API_KEY}`
+      : `${API_BASE_URL}/discover/movie?sort_by=popularity.desc&api_key=${API_KEY}`;
+    const response = await fetch(endpoint);
 
-    try {
-    const endpoint = `${API_BASE_URL}/discover/movie?sort_by=popularity.desc&api_key=${API_KEY}`
-const response = await fetch(endpoint)
-
-      if (!response.ok) {
-        throw new Error('Network response was not ok')
-      }
+    if (!response.ok) {
+      throw new Error('Network response was not ok')
+    }
 
       const data = await response.json()
      
